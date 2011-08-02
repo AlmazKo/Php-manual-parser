@@ -2,10 +2,10 @@
 $:.unshift(File.dirname(__FILE__))
 
 require 'nokogiri'
-require 'php_net'
-require 'mysql'
-require 'storage'
-require 'models/model'
+
+
+require 'php_bot'
+require 'models/storage'
 require 'models/page'
 require 'models/note'
 
@@ -21,14 +21,27 @@ require 'models/note'
 
 
 
-
+Thread.abort_on_exception = true
 
 Time_begin = Time.now
 
 
+bot = PhpBot.new
+bot.start
+
+
+def join_all
+  main = Thread.main
+  current = Thread.current
+  all = Thread.list
+  all.each {|t| t.join unless t == current or t == main}
+end
+
+
+
 #php_net.set_cookies(result.response['set-cookie'])
 
-def parsing result
+#def parsing result
 
 
 
@@ -65,7 +78,10 @@ def parsing result
     # puts url_finally
 
 
-  end
+  #end
 
 
-  puts "Work #{Time.now - Time_begin} sec"
+  puts "\nWork #{Time.now - Time_begin} sec"
+ 
+sleep(10)
+#join_all()

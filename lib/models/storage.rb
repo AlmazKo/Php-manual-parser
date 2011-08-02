@@ -1,9 +1,11 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
+# coding: utf-8
+$:.unshift(File.dirname(__FILE__))
+
+require 'dbl/mysql'
 
 module Storage
   
-  MYSQL = Mysql.new
+  MYSQL = DblMysql.new
   
   # Добавить модель в базу и прописать ей id
   #  
@@ -19,39 +21,12 @@ module Storage
     
     table_name = self.class.downcase
   
-    self.id = MYSQL.query("INSERT INTO #{table_name} (#{columns.join(',')}) VALUES (#{(['?'] * values.size).join(',')})", values)
+    sql = "INSERT INTO #{table_name} (#{columns.join(',')}) VALUES (#{(['?'] * values.size).join(',')})"
+    self.id = MYSQL.query sql, values
     nil
   end
     
-  class Mysql
-    
-    INSERT = 1
-    @@mutex = Mutex.new
-    
-    def initialize
-      @my = Mysql::real_connect('localhost', 'root', '210411', 'php_manual')
-    end
 
-    def query sql, values, type = nil
-      stmt = @my.prepare(sql)
-      @@mutex.synchronize do
-        begin
-          stmt.execute(*values)
-        rescue => ex
-          puts ex
-          return nil
-        end
-        
-        case type
-        when INSERT
-          return stmt.insert_id()
-        end
-      end
-
-      stmt
-    end
-    
-  end
   
   private
   

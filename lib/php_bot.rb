@@ -1,9 +1,13 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-class Bot
-  
-  include Net
+require 'download_manager'
+require 'parsing_manager'
+require 'analyzer'
+
+
+class PhpBot
+
   
   PHP_NET_URL = 'http://php.net'
   MANUAL_URL  = PHP_NET_URL + '/manual/en/'
@@ -20,8 +24,7 @@ class Bot
   @@mutex = Mutex.new
 
   def initialize
-    
-    @storage = Storage.new
+
     
     DownloadManager.workers = 2
     ParsingManager.workers = 4
@@ -31,21 +34,13 @@ class Bot
     
   end
   
-  def start
-    url = URI.parse(MANUAL_URL)
-    request = @php_net.get_request(url)
-
-
-    result = HTTP.start(url.host, url.port) {|http|
-      http.request(request)
-    }
-
-    @@finished_pages << MANUAL_URL
-    @@finished_pages << (MANUAL_URL + 'index.php')
+  def start url = nil
     
-    # start dispatcher parsing daemon
-    # start dispatcher download daemon
-    parsing result
+    if (url.nil?)
+      @@download_task_queue.enq(MANUAL_URL)
+    else
+      
+    end
   end
   
   private

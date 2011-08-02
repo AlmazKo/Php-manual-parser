@@ -1,6 +1,6 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
-
+require 'parser'
 class ParsingManager
   def initialize queue_from, queue_to
     @queue_from, @queue_to = queue_from, queue_to
@@ -8,10 +8,10 @@ class ParsingManager
     Thread.new(@queue_from) { |queue|
       while true
         if (group.list.size < @@available_workers)
-          new_url = queue_from.deq
+          html = queue_from.deq
           group.add(
-            Thread.new(queue_to, new_url) {|queue, url| 
-              Parser.new(url, queue)}
+            Thread.new(queue_to, html) {|queue, html| 
+              Parser.new(html, queue)}
           )
         else
           # TODO make after with JOIN
@@ -25,7 +25,7 @@ class ParsingManager
   end
   
   class << self
-    def workers number
+    def workers= number
       @@available_workers = number
       self
     end

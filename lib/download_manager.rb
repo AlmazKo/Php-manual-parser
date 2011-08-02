@@ -1,6 +1,6 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
-
+require 'downloader'
 class DownloadManager
   @@available_workers = 1
   
@@ -11,9 +11,14 @@ class DownloadManager
       while true
         if (group.list.size < @@available_workers)
           new_url = queue_from.deq
+
           group.add(
             Thread.new(queue_to, new_url) {|queue, url| 
-              Downloader.new(url, queue)}
+
+             x = Downloader.new(url, queue)
+
+                           
+             }
           )
         else
           # TODO make after with JOIN
@@ -27,7 +32,7 @@ class DownloadManager
   end
   
   class << self
-    def workers number
+    def workers= number
       @@available_workers = number
       self
     end
