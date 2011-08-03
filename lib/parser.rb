@@ -36,9 +36,9 @@ class Parser
     end
     
     return urls, notes, page
-
+  end
   
-    def find_urls
+    def get_urls
       html = Nokogiri::HTML(@html.body)
     
       html.css('a').each do |link|
@@ -55,6 +55,14 @@ class Parser
         end
       end
     end
-  end
+    
+    def get_notes
+      
+    end
+    
+    def get_context
+      
+    end
+
   
 end

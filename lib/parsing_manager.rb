@@ -8,10 +8,16 @@ class ParsingManager
     Thread.new(@queue_from) { |queue|
       while true
         if (group.list.size < @@available_workers)
-          html = queue_from.deq
+          result = queue_from.deq
           group.add(
-            Thread.new(queue_to, html) {|queue, html| 
-              Parser.new(html, queue)}
+            Thread.new(queue_to, result[:html]) {|queue, html| 
+              parser = Parser.new(html, queue)
+              urls = parser.get_urls
+              notes = parser.get_notes
+              page.title =parser.get_title
+              page.context = parser.get_context
+              
+              }
           )
         else
           # TODO make after with JOIN

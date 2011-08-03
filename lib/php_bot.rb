@@ -24,23 +24,19 @@ class PhpBot
   @@mutex = Mutex.new
 
   def initialize
-
-    
     DownloadManager.workers = 2
     ParsingManager.workers = 4
     @downloader_manager = DownloadManager.new @@download_task_queue, @@parsing_task_queue
     @parser_manager = ParsingManager.new @@parsing_task_queue, @@raw_url_queue
     @url_analyzer = Analyzer.new @@raw_url_queue, @@download_task_queue
-    
   end
   
-  def start url = nil
-    
+  def start url
     if (url.nil?)
-      @@download_task_queue.enq(MANUAL_URL)
-    else
-      
+      url = MANUAL_URL
     end
+    url.taint
+    @@download_task_queue.enq(url)
   end
   
   private

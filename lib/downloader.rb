@@ -10,8 +10,8 @@ class Downloader
   @@php_net = PhpNet.new
   
   def initialize url, queue
-                  puts url
-uri = URI.parse url
+
+    uri = URI.parse url
     request = @@php_net.get_request(uri)
     
     
@@ -19,8 +19,7 @@ uri = URI.parse url
       http.request(request)
     }
     
-
-    queue.enq result
+    queue.enq ({url: url, html: result})
     nil
   end
 end
