@@ -2,10 +2,14 @@
 # and open the template in the editor.
 
 class Parser
-  def initialize html, queue
+  def initialize html, url, queue
 
-      puts html.class
-      exit 
+     @html = Nokogiri::HTML(html.body)
+     
+
+    html.head.css('title').each do |link|
+      
+    end
     page = Page.new
     page.url = url.to_s
     page.name = link.content
@@ -35,25 +39,25 @@ class Parser
       }
     end
     
-    return urls, notes, page
+     get_urls().each { |item|
+       queue.enq(item)
+     }
   end
   
     def get_urls
-      html = Nokogiri::HTML(@html.body)
-    
-      html.css('a').each do |link|
-  
+      @html.css('a').each do |link|
+        urls = []
         link_href = link.attr('href')
-        url_finally = ''
         if (link_href[0] == '/')
           next unless link_href.start_with?('/manual/en')
-          url_finally << PHP_NET_URL << link_href
+          urls << (PHP_NET_URL << link_href)
         else
           # TODO сделать более гибкое условие
           next if link_href.start_with?('http://')
-          url_finally << MANUAL_URL << link_href  
+          urls << (PHP_NET_URL << link_href)
         end
       end
+      urls
     end
     
     def get_notes
