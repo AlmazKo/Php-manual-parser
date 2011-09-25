@@ -8,16 +8,15 @@ require 'php_bot'
 require 'models/storage'
 require 'models/page'
 require 'models/note'
-
-
-#
-#
-#result = p.query('show tables')
+require 'models/link'
+    
+#p = DblMysql.new
+#result = p.query('SELECT * FROM `php_manual`.`page`')
 #
 #result.each { |x|
 #  puts x
 #}
-#exit
+exit
 
 
 

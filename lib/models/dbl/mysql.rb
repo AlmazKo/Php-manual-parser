@@ -12,7 +12,8 @@ class DblMysql
       @my = Mysql::real_connect('localhost', 'root', '210411', 'php_manual')
     end
 
-    def query sql, values, type = nil
+    def query sql, values = [], type = nil
+      puts sql
       stmt = @my.prepare(sql)
       @@mutex.synchronize do
         begin

@@ -31,10 +31,7 @@ class PhpBot
     @url_analyzer = Analyzer.new @@raw_url_queue, @@download_task_queue
   end
   
-  def start url
-    if (url.nil?)
-      url = MANUAL_URL
-    end
+  def start url = MANUAL_URL
     url.taint
     @@download_task_queue.enq(url)
   end
