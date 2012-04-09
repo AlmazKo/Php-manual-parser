@@ -16,16 +16,17 @@ require 'models/link'
 #result.each { |x|
 #  puts x
 #}
+exit
+
+
 
 Thread.abort_on_exception = true
 
 Time_begin = Time.now
 
-link = Link.new
-link.id = 1
-link.url = PhpBot::MANUAL_URL
 
-PhpBot.new.start link
+bot = PhpBot.new
+bot.start
 
 
 def join_all

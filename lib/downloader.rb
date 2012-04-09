@@ -9,17 +9,16 @@ class Downloader
   
   @@php_net = PhpNet.new
   
-  def initialize url, queue
+  def initialize link, queue
 
-    uri = URI.parse url
+    uri = URI.parse link.url
     request = @@php_net.get_request(uri)
     
     
     result = HTTP.start(uri.host, uri.port) {|http|
       http.request(request)
     }
-    
-    queue.enq ({url: url, html: result})
+    queue.enq ({link: url, html: result})
     nil
   end
 end
