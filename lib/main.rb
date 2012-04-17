@@ -9,7 +9,7 @@ require 'models/storage'
 require 'models/page'
 require 'models/note'
 require 'models/link'
-    
+
 #p = DblMysql.new
 #result = p.query('SELECT * FROM `php_manual`.`page`')
 #

@@ -7,10 +7,10 @@ class ParsingManager
     group = ThreadGroup.new
     Thread.new(@queue_from) { |queue|
       while true
-          result = queue_from.deq
+        result = queue_from.deq
           group.add(
-            Thread.new(queue_to, result[:url], result[:html]) {|queue, url, html| 
-              parser = Parser.new(html, url, queue)
+            Thread.new(queue_to, result[:link], result[:html]) {|queue, link, html|
+              parser = Parser.new(html, link, queue)
             }
           )
 

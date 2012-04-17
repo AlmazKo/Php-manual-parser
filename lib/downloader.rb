@@ -18,7 +18,7 @@ class Downloader
     result = HTTP.start(uri.host, uri.port) {|http|
       http.request(request)
     }
-    queue.enq ({link: url, html: result})
+    queue.enq ({link: link, html: result})
     nil
   end
 end
