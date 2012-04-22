@@ -4,7 +4,7 @@
 require 'download_manager'
 require 'parsing_manager'
 require 'analyzer'
-require 'models/link'
+require 'models/anchor'
 
 class PhpBot
 

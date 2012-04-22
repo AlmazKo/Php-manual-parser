@@ -8,7 +8,7 @@ require 'php_bot'
 require 'models/storage'
 require 'models/page'
 require 'models/note'
-require 'models/link'
+require 'models/anchor'
 
 #p = DblMysql.new
 #result = p.query('SELECT * FROM `php_manual`.`page`')

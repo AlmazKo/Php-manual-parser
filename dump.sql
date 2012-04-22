@@ -1,12 +1,29 @@
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `page` (
+CREATE TABLE IF NOT EXISTS `anchor` (
+  `id` int(10) unsigned NOT NULL,
+  `from_page_id` int(10) unsigned NOT NULL,
+  `to_page_id` int(10) unsigned NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `url_params` varchar(255) NOT NULL,
+  `is_contents` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `page` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `url` text CHARACTER SET utf8 NOT NULL,
   `date` datetime NOT NULL,
+  `completely` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO `page` (`id`, `parent_id`, `name`, `url`, `date`) VALUES (1,NULL,'PHP: PHP Manual - Manual','http://php.net/manual/en/','2012-04-17 23:11:00'),(2,NULL,'PHP: PHP Manual - Manual','http://php.net/manual/en/','2012-04-17 23:12:26');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `page_mem` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) unsigned DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `url` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `date` datetime NOT NULL,
+  `completely` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;

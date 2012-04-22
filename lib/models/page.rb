@@ -5,9 +5,9 @@ class Page
   
   include Storage
   
-  attr_accessor :id, :parent_id, :name, :url, :date
+  attr_accessor :id, :parent_id, :name, :url, :date, :completely
 
   def initialize
-    @id, @parent_id, @name, @url, @date = nil
+    @id, @parent_id, @name, @url, @date, @completely = nil
   end
 end
