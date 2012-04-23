@@ -9,6 +9,7 @@ require 'models/storage'
 require 'models/page'
 require 'models/note'
 require 'models/anchor'
+require 'models/index'
 
 #p = DblMysql.new
 #result = p.query('SELECT * FROM `php_manual`.`page`')
@@ -21,7 +22,7 @@ Thread.abort_on_exception = true
 
 Time_begin = Time.now
 
-link = Link.new
+link = Anchor.new
 link.id = 1
 link.url = PhpBot::MANUAL_URL
 

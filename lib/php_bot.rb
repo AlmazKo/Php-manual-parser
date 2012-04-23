@@ -4,13 +4,12 @@
 require 'download_manager'
 require 'parsing_manager'
 require 'analyzer'
-require 'models/anchor'
-
+require 'models/index'
 class PhpBot
 
   PHP_NET_URL = 'http://php.net'
   MANUAL_URL  = PHP_NET_URL + '/manual/en/'
-
+  INDEX = Index.new
   attr_reader  :download_task_queue,
                :parsing_task_queue,
                :downloader_manager,
@@ -25,13 +24,24 @@ class PhpBot
     @parsing_task_queue = SizedQueue.new parsing_workers
     @raw_url_queue = Queue.new
 
-    @downloader_manager = DownloadManager.new @download_task_queue, @parsing_task_queue
+
+    @downloader_manager = DownloadManager.new @download_task_queue, INDEX
     @parser_manager = ParsingManager.new @parsing_task_queue, @raw_url_queue
     @url_analyzer = Analyzer.new @raw_url_queue, @download_task_queue
   end
 
-  def start link
-    @download_task_queue.enq(link)
+  def start anchor
+    index = Index.new
+    anchors = index.get_anchors
+
+    if anchors.empty?
+      @download_task_queue.enq(anchor)
+    else
+      anchors.each { |anchor|
+        @download_task_queue.enq(anchor)
+      }
+    end
+
   end
 
   #private

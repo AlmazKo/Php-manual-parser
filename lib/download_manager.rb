@@ -3,15 +3,15 @@ require 'downloader'
 class DownloadManager
   @@available_workers = 1
 
-  def initialize queue_from, queue_to
+  def initialize queue_from, analyzer
     group = ThreadGroup.new
     Thread.new(@queue_from) { |queue|
       while true
           link = queue_from.deq
 
           group.add(
-            Thread.new(queue_to, link) {|queue, link|
-              Downloader.new(link, queue)
+            Thread.new(analyzer, link) {|analyzer, link|
+              Downloader.new(link, analyzer)
             }
           )
       end

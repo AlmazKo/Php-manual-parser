@@ -60,7 +60,8 @@ class Parser
     page = Page.new
     page.url = link.url.to_s
     page.name = html.title
-    page.parent_id
+    page.content = html
+    #page.parent_id
     page.date = Time.new
     #page.add!(page)
     page
