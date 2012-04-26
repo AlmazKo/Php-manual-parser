@@ -11,12 +11,34 @@ require 'models/note'
 require 'models/anchor'
 require 'models/index'
 
-#p = DblMysql.new
-#result = p.query('SELECT * FROM `php_manual`.`page`')
-#
-#result.each { |x|
-#  puts x
-#}
+
+require 'bash-visual'
+
+include Bash_Visual;
+
+font = Font.new(Font::STD, Font::LIGHT_GREEN)
+console = Console.new(font)
+console.clear
+
+console.position = [0, 0]
+
+console.draw_window(1, 11, 82, 22, 'Logs', font, Console::BORDER_UTF_DOUBLE)
+
+$scroll = VerticalScroll.new(
+    coordinates: [1, 11],
+    window_size: [80, 20],
+    font: font,
+    start: Scroll::ENDING,
+    adapt_size_message: true,
+    prefix: ->{ Time.now.strftime('%H-%M-%S:%3N') << " " }
+)
+
+
+
+def puts str
+  $scroll.add str
+  sleep(0.8)
+end
 
 Thread.abort_on_exception = true
 

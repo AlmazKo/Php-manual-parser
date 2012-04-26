@@ -9,7 +9,7 @@ class PhpBot
 
   PHP_NET_URL = 'http://php.net'
   MANUAL_URL  = PHP_NET_URL + '/manual/en/'
-  INDEX = Index.new
+
   attr_reader  :download_task_queue,
                :parsing_task_queue,
                :downloader_manager,
@@ -19,20 +19,22 @@ class PhpBot
   @@mutex = Mutex.new
 
   def initialize downloader_workers = 1, parsing_workers = 1
-
+    @index = Index.new
     @download_task_queue = SizedQueue.new downloader_workers
     @parsing_task_queue = SizedQueue.new parsing_workers
     @raw_url_queue = Queue.new
 
 
-    @downloader_manager = DownloadManager.new @download_task_queue, INDEX
+    @downloader_manager = DownloadManager.new @download_task_queue, @index
     @parser_manager = ParsingManager.new @parsing_task_queue, @raw_url_queue
     @url_analyzer = Analyzer.new @raw_url_queue, @download_task_queue
+
+
   end
 
   def start anchor
-    index = Index.new
-    anchors = index.get_anchors
+
+    anchors = @index.get_anchors
 
     if anchors.empty?
       @download_task_queue.enq(anchor)
