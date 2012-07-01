@@ -52,7 +52,14 @@ module Storage
     nil
   end
 
-  
+
+  def get_name_vars
+    name_vars = []
+    class_variables.each { |var|
+      name_vars << var.to_s.sub('@','')
+    }
+    name_vars
+  end
   private
   
   #     mod.get_vars(symbol)    => Hash
@@ -67,4 +74,5 @@ module Storage
     end
     vars
   end
+
 end

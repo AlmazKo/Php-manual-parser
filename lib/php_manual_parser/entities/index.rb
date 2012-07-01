@@ -12,6 +12,11 @@ class Index
     fill_tables
   end
 
+
+  def add_link
+
+  end
+
   def download_page anchor, html
        hasPage  html
   end
